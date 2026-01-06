@@ -1,0 +1,9 @@
+vite-sample/node_modules
+vite-sample/dist
+vite-sample/.env
+
+go-sample/main
+go-smaple/*.exe
+go-smaple/vendor/
+
+docker-compose.env

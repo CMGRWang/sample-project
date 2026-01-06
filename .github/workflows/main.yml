@@ -1,0 +1,51 @@
+name: Build and Test
+
+# 1. 觸發條件：當 main 分支有 push 時
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  # 第一個工作：檢查後端 Go
+  backend-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4 # 把你的程式碼抓到雲端電腦
+      
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.25'
+
+      - name: Build Go
+        run: |
+          cd task-backend
+          go build -v ./...
+          
+  # 第二個工作：檢查前端 React
+  frontend-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install and Build
+        run: |
+          cd my-task-app
+          npm install
+          npm run build
+
+  # 第三個工作：嘗試 Docker 打包 (這是 CD 的基礎)
+  docker-build:
+    needs: [backend-ci, frontend-ci] # 必須前兩個都過了才跑這個
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Backend Image
+        run: docker build -t my-backend ./task-backend
+      - name: Build Frontend Image
+        run: docker build -t my-frontend ./my-task-app
