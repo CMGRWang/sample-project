@@ -19,7 +19,7 @@ jobs:
 
       - name: Build Go
         run: |
-          cd task-backend
+          cd go-sample
           go build -v ./...
           
   # 第二個工作：檢查前端 React
@@ -35,7 +35,7 @@ jobs:
 
       - name: Install and Build
         run: |
-          cd my-task-app
+          cd vite-sample
           npm install
           npm run build
 
