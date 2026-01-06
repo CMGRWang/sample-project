@@ -46,6 +46,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build Backend Image
-        run: docker build -t my-backend ./task-backend
+        run: docker build -t my-backend ./go-sample
       - name: Build Frontend Image
-        run: docker build -t my-frontend ./my-task-app
+        run: docker build -t my-frontend ./vite-sample
